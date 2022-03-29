@@ -3,12 +3,6 @@ public class Student {
     private String name;
     private String birthdate;
 
-    public Student() {
-        this.id = "s1234567";
-        this.name = "default";
-        this.birthdate = "default";
-    }
-
     public Student(String id, String name, String birthdate) {
         this.id = id;
         this.name = name;
@@ -25,5 +19,14 @@ public class Student {
 
     public String getStudentBirthdate() {
         return birthdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", birthdate='" + birthdate + '\'' +
+                '}';
     }
 }

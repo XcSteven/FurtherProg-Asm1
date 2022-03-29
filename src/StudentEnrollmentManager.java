@@ -1,2 +1,2 @@
-public class StudentEnrollmentManager {
+public interface StudentEnrollmentManager {
 }
