@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class StudentEnrolment implements StudentEnrollmentManager {
     private Student student;
@@ -46,20 +45,9 @@ public class StudentEnrolment implements StudentEnrollmentManager {
 
     }
 
-    public void getALLEnrolment() {
+    public void getAllEnrolment() {
         for (StudentEnrolment enrolment : enrolment_list) {
             System.out.println(enrolment.toString());
         }
-    }
-
-    public static void main(String args[]) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter ID of the student that needs to be enrolled: ");
-        String id = input.nextLine();
-        System.out.print("Enter the semester that the student is enrolling in: ");
-        String semester  = input.nextLine();
-        System.out.print("Enter course name for enrolling student: ");
-        String course  = input.nextLine();
-        System.out.println(id + " " + semester + " " + course);
     }
 }
