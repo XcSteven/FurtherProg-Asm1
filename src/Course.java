@@ -28,8 +28,10 @@ public class Course {
         return course_list;
     }
 
-    public void addCourse(Course course) {
-        course_list.add(course);
+    public void getAllCourses() {
+        for (Course course : course_list) {
+            System.out.println(course.toString());
+        }
     }
 
     @Override
@@ -40,11 +42,5 @@ public class Course {
                 ", credit_num=" + credit_num +
                 ", course_list=" + course_list +
                 '}';
-    }
-
-    public void getAllCourses() {
-        for (Course course : course_list) {
-            System.out.println(course.toString());
-        }
     }
 }

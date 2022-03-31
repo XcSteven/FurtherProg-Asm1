@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Student {
     private String id;
     private String name;
     private String birthdate;
+    private List<Student> student_list = new ArrayList<>();
 
     public Student(String id, String name, String birthdate) {
         this.id = id;
@@ -19,6 +23,16 @@ public class Student {
 
     public String getStudentBirthdate() {
         return birthdate;
+    }
+
+    public List<Student> getList() {
+        return student_list;
+    }
+
+    public void getAllStudents() {
+        for (Student student : student_list) {
+            System.out.println(student.toString());
+        }
     }
 
     @Override
