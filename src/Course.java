@@ -4,7 +4,6 @@ public class Course {
     private String id;
     private String name;
     private int credit_num;
-    private List<Course> course_list = new ArrayList<>();
 
     public Course(String id, String name, int credit_num) {
         this.id = id;
@@ -18,20 +17,6 @@ public class Course {
 
     public String getCourseName() {
         return name;
-    }
-
-    public int getCourseCredit() {
-        return credit_num;
-    }
-
-    public List<Course> getCourseList() {
-        return course_list;
-    }
-
-    public void getAllCourses() {
-        for (Course course : course_list) {
-            System.out.println(course.toString());
-        }
     }
 
     @Override
