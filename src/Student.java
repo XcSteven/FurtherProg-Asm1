@@ -5,7 +5,7 @@ public class Student {
     private String id;
     private String name;
     private String birthdate;
-    
+
     public Student(String id, String name, String birthdate) {
         this.id = id;
         this.name = name;
@@ -26,7 +26,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Student {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", birthdate='" + birthdate + '\'' +

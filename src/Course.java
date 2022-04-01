@@ -21,11 +21,10 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
+        return "Course {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", credit_num=" + credit_num +
-                ", course_list=" + course_list +
                 '}';
     }
 }
