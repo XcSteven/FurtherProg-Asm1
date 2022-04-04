@@ -19,8 +19,14 @@ public interface StudentEnrolmentManager {
                     if (Objects.equals(enrolment_list.get(i).getSemester(), sem)) {
                         enrolment_list.remove(i);
                         System.out.println("Enrolment deleted.");
+                    } else {
+                        System.out.println("Enrolment not found!");
                     }
+                } else {
+                    System.out.println("That student did not enroll in this course!");
                 }
+            } else {
+                System.out.println("No students found!");
             }
         }
     }

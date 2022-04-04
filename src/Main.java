@@ -32,15 +32,16 @@ public class Main implements StudentEnrolmentManager {
         Student stu2 = new Student("s7654321", "Lmao", "12/31/2002");
         student_list.add(stu2);
 
-        Course cou1 = new Course("C111", "Intro to Programming",12);
+        Course cou1 = new Course("C111", "Intro to Programming", 12);
         course_list.add(cou1);
-        Course cou2 = new Course("C222", "Intro to Management",12);
+        Course cou2 = new Course("C222", "Intro to Management", 12);
         course_list.add(cou2);
-        Course cou3 = new Course("C333", "Intro to Design",12);
+        Course cou3 = new Course("C333", "Intro to Design", 12);
         course_list.add(cou3);
 
         while (true) {
             System.out.println("""
+                                        
                     Welcome to RMIT Student Enrolment Managing System
                     1. Add an enrolment
                     2. Update an enrolment
@@ -58,75 +59,85 @@ public class Main implements StudentEnrolmentManager {
             choice = sc.nextLine();
 
             switch (choice) {
-            case "1":
-                System.out.print("Enter the student ID: ");
-                String s1 = sc.nextLine();
-                Student student = studentFind(s1);
-                if (student != null) {
-                    System.out.print("Enter the course ID: ");
-                    String c1 = sc.nextLine();
-                    Course course = courseFind(c1);
-                    if (course != null) {
-                        System.out.print("Enter the semester to be enrolled in: ");
-                        String sem1 = sc.nextLine();
-                        StudentEnrolmentManager.add(student, course, sem1);
+                case "1":
+                    System.out.print("Enter the student ID: ");
+                    String s1 = sc.nextLine();
+                    Student student = studentFind(s1);
+                    if (student != null) {
+                        System.out.print("Enter the course ID: ");
+                        String c1 = sc.nextLine();
+                        Course course = courseFind(c1);
+                        if (course != null) {
+                            System.out.print("Enter the semester to be enrolled in: ");
+                            String sem1 = sc.nextLine();
+                            StudentEnrolmentManager.add(student, course, sem1);
+                        } else {
+                            System.out.println("No courses found!");
+                        }
+                    } else {
+                        System.out.println("No students found!");
                     }
-                } else {
-                    System.out.println();
-                }
-                break;
+                    break;
 
-            case "2":
-                System.out.println("2");
-                break:
+                case "2":
+                    System.out.println("2");
+                    break;
 
-            case "3":
-                System.out.print("Enter the student ID: ");
-                String s3 = sc.nextLine();
-                System.out.print("Enter the course ID: ");
-                String c3 = sc.nextLine();
-                System.out.print("Enter the semester of the enrolment: ");
-                String sem3 = sc.nextLine();
-                StudentEnrolmentManager.delete(s3, c3, sem3);
-                break;
+                case "3":
+                    System.out.print("Enter the student ID: ");
+                    String s3 = sc.nextLine();
+                    System.out.print("Enter the course ID: ");
+                    String c3 = sc.nextLine();
+                    System.out.print("Enter the semester of the enrolment: ");
+                    String sem3 = sc.nextLine();
+                    StudentEnrolmentManager.delete(s3, c3, sem3);
+                    break;
 
-            case "4":
-                System.out.println("4");
-                break;
+                case "4":
+                    for (int i = 0; i < student_list.size(); i++) {
+                        System.out.println(student_list);
+                    }
+                    break;
 
-            case "5":
-                System.out.println("5");
-                break;
+                case "5":
+                    for (int i = 0; i < course_list.size(); i++) {
+                        System.out.println(course_list);
+                    }
+                    break;
 
-            case "6":
-                StudentEnrolmentManager.getAll();
-                break;
+                case "6":
+                    if (enrolment_list != null) {
+                        StudentEnrolmentManager.getAll();
+                    } else {
+                        System.out.println("No enrolment found!");
+                    }
+                    break;
 
-            case "7":
-                System.out.println("7");
-                break;
+                case "7":
+                    System.out.println("7");
+                    break;
 
-            case "8":
-                System.out.println("8");
-                break;
+                case "8":
+                    System.out.println("8");
+                    break;
 
-            case "9":
-                System.out.println("9");
-                break;
+                case "9":
+                    System.out.println("9");
+                    break;
 
-            case "0":
-                System.out.println("Thank you for using our system!");
-                System.exit(0);
-                
-            default:
-                System.out.println("That is not a valid option, please try again.");
+                case "0":
+                    System.out.println("Thank you for using our system!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("That is not a valid option, please try again.");
             }
         }
     }
 
     @Override
     public void update() {
-
+        
     }
 
     @Override
