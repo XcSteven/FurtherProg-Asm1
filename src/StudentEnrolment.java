@@ -51,6 +51,7 @@ public class StudentEnrolment {
 
     @Override
     public String toString() {
-        return getStudentID() + " " + getStudentName() + " " + getStudentBirthdate() + " " + getCourseID() + " " + getCourseName() + " " + getCourseCredit() + " " + getSemester();
+        return getStudentID() + " " + getStudentName() + " " + getStudentBirthdate() + " " +
+                getCourseID() + " " + getCourseName() + " " + getCourseCredit() + " " + getSemester();
     }
 }
