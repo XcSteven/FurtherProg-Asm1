@@ -19,6 +19,10 @@ public class Course {
         return name;
     }
 
+    public int getCourseCredit() {
+        return credit_num;
+    }
+
     @Override
     public String toString() {
         return "Course {" +

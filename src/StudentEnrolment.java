@@ -4,7 +4,6 @@ public class StudentEnrolment {
     private Student student;
     private Course course;
     private String semester;
-    private ArrayList<StudentEnrolment> enrolment_list;
 
 
     public StudentEnrolment(Student student, Course course, String semester) {
@@ -21,6 +20,10 @@ public class StudentEnrolment {
         return student.getStudentName();
     }
 
+    public String getStudentBirthdate() {
+        return student.getStudentBirthdate();
+    }
+
     public String getCourseID() {
         return course.getCourseID();
     }
@@ -29,17 +32,28 @@ public class StudentEnrolment {
         return course.getCourseName();
     }
 
+    public int getCourseCredit() {
+        return course.getCourseCredit();
+    }
+
     public String getSemester() {
         return semester;
     }
 
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
     @Override
     public String toString() {
-        return "StudentEnrolment{" +
-                "student=" + student +
-                ", course=" + course +
-                ", semester='" + semester + '\'' +
-                ", enrolment_list=" + enrolment_list +
-                '}';
+        return getStudentID() + " " + getStudentName() + " " + getStudentBirthdate() + " " + getCourseID() + " " + getCourseName() + " " + getCourseCredit() + " " + getSemester();
     }
 }

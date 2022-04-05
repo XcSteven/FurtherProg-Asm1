@@ -10,7 +10,19 @@ public interface StudentEnrolmentManager {
         System.out.println("Student " + s.getStudentName() + " has been enrolled into course " + c.getCourseName() + " in semester "  + sem + ".");
     }
 
-    void update();
+    static void update(Student s, Course c, String sem) {
+        for (int i = 0; i < enrolment_list.size(); i++) {
+            if (Objects.equals(enrolment_list.get(i).getStudentID(), s.getStudentID())) {
+                if (Objects.equals(enrolment_list.get(i).getCourseID(), c.getCourseID())) {
+                    if (Objects.equals(enrolment_list.get(i).getSemester(), sem)) {
+                        enrolment_list.get(i).setStudent(s);
+                        enrolment_list.get(i).setCourse(c);
+                        enrolment_list.get(i).setSemester(sem);
+                    }
+                }
+            }
+        }
+    }
 
     static void delete(String sID, String cID, String sem) {
         for (int i = 0; i < enrolment_list.size(); i++) {
@@ -19,14 +31,8 @@ public interface StudentEnrolmentManager {
                     if (Objects.equals(enrolment_list.get(i).getSemester(), sem)) {
                         enrolment_list.remove(i);
                         System.out.println("Enrolment deleted.");
-                    } else {
-                        System.out.println("Enrolment not found!");
                     }
-                } else {
-                    System.out.println("That student did not enroll in this course!");
                 }
-            } else {
-                System.out.println("No students found!");
             }
         }
     }
@@ -35,7 +41,7 @@ public interface StudentEnrolmentManager {
 
     static void getAll() {
         for (int i = 0; i < enrolment_list.size(); i++) {
-            System.out.println(enrolment_list);
+            System.out.println(enrolment_list.get(i));
         }
     }
 
