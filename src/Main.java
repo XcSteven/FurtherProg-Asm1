@@ -25,8 +25,9 @@ public class Main implements StudentEnrolmentManager {
                         new Course(element[3], element[4], Integer.parseInt(element[5])), element[6]));
             }
         }
-        catch(IOException ioe) {
-            ioe.printStackTrace();
+        catch(IOException e) {
+            System.out.println("*** File " + csv_file + " not found! ***");
+            System.exit(0);
         }
     }
 
@@ -55,8 +56,20 @@ public class Main implements StudentEnrolmentManager {
     }
 
     public static void main(String[] args) {
-        String csv_file = "default.csv";
+        String csv_input;
+        String csv_file;
+        System.out.print("Choose a CSV file to read data from: ");
+        csv_input = sc.nextLine();
+        if (Objects.equals(csv_input, "")) {
+            csv_file = "default.csv";
+            System.out.println("*** No file was chosen, so default.csv is being read instead. ***");
+        } else if (csv_input.contains(".csv")) {
+            csv_file = csv_input;
+        } else {
+            csv_file = csv_input + ".csv";
+        }
         read(csv_file);
+        System.out.println("*** File " + csv_file + " is being read. ***");
 
         String main;
         do {
