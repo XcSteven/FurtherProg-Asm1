@@ -24,25 +24,17 @@ public interface StudentEnrolmentManager {
         }
     }
 
-    static void delete(String sID, String cID, String sem) {
-        for (int i = 0; i < enrolment_list.size(); i++) {
-            if (Objects.equals(enrolment_list.get(i).getStudentID(), sID)) {
-                if (Objects.equals(enrolment_list.get(i).getCourseID(), cID)) {
-                    if (Objects.equals(enrolment_list.get(i).getSemester(), sem)) {
-                        enrolment_list.remove(i);
-                        System.out.println("Enrolment deleted.");
-                    }
-                }
-            }
-        }
+    static void delete(int pos) {
+        enrolment_list.remove(pos);
+        System.out.println("Enrollment deleted!");
     }
 
-    void getOne();
+    static StudentEnrolment getOne(int pos) {
+        return enrolment_list.get(pos);
+    }
 
-    static void getAll() {
-        for (int i = 0; i < enrolment_list.size(); i++) {
-            System.out.println(enrolment_list.get(i));
-        }
+    static ArrayList<StudentEnrolment> getAll() {
+        return enrolment_list;
     }
 
 }

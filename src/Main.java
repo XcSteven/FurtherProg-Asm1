@@ -25,6 +25,12 @@ public class Main implements StudentEnrolmentManager {
         return null;
     }
 
+    public static void allEnrolments() {
+        for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
+            System.out.println(StudentEnrolmentManager.getAll().get(i));
+        }
+    }
+
     public static void main(String[] args) {
         Student stu1 = new Student("s1234567", "Bruh", "1/1/2002");
         student_list.add(stu1);
@@ -38,15 +44,15 @@ public class Main implements StudentEnrolmentManager {
         Course cou3 = new Course("C333", "Intro to Design", 12);
         course_list.add(cou3);
 
-        enrolment_list.add(new StudentEnrolment(stu1, cou1, "2021A"));
-        enrolment_list.add(new StudentEnrolment(stu1, cou3, "2021A"));
-        enrolment_list.add(new StudentEnrolment(stu1, cou2, "2021B"));
+        StudentEnrolmentManager.getAll().add(new StudentEnrolment(stu1, cou1, "2021A"));
+        StudentEnrolmentManager.getAll().add(new StudentEnrolment(stu1, cou3, "2021A"));
+        StudentEnrolmentManager.getAll().add(new StudentEnrolment(stu1, cou2, "2021B"));
 
         String main;
         do {
             System.out.println("""
                                                     
-                    Welcome to RMIT Student Enrolment Managing System
+                    Welcome to RMIT Student Enrolment Managing System!
                     1. Show all enrolments
                     2. Enrol a student
                     3. Update an enrolment
@@ -57,7 +63,7 @@ public class Main implements StudentEnrolmentManager {
             switch (main) {
                 case "1":
                     System.out.println("ALL ENROLMENTS AVAILABLE");
-                    StudentEnrolmentManager.getAll();
+                    allEnrolments();
                     break;
 
                 case "2":
@@ -82,28 +88,28 @@ public class Main implements StudentEnrolmentManager {
 
                 case "3":
                     String s2;
-                    String sem2 = null;
+                    String sem2;
+                    ArrayList<Integer> abc_semester = new ArrayList<>();
 
                     System.out.print("Enter the student ID: ");
                     s2 = sc.nextLine();
                     ArrayList<Integer> abc_student = new ArrayList<>();
-                    for (int i = 0; i < enrolment_list.size(); i++) {
-                        if (Objects.equals(enrolment_list.get(i).getStudentID(), s2)) {
+                    for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
+                        if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getStudentID(), s2)) {
                             abc_student.add(i);
                         }
                     }
                     if (abc_student.size() != 0) {
                         System.out.print("Enter the semester: ");
                         sem2 = sc.nextLine();
-                        ArrayList<Integer> abc_semester = new ArrayList<>();
                         for (int i = 0; i < abc_student.size(); i++) {
-                            if (Objects.equals(enrolment_list.get(abc_student.get(i)).getSemester(), sem2)) {
+                            if (Objects.equals(StudentEnrolmentManager.getAll().get(abc_student.get(i)).getSemester(), sem2)) {
                                 abc_semester.add(i);
                             }
                         }
                         if (abc_semester.size() != 0) {
                             for (int i = 0; i < abc_semester.size(); i++) {
-                                System.out.println(enrolment_list.get(abc_semester.get(i)));
+                                System.out.println(StudentEnrolmentManager.getAll().get(abc_semester.get(i)));
                             }
                         } else {
                             System.out.println("This student is not enrolled in semester " + sem2 + ".");
@@ -114,14 +120,13 @@ public class Main implements StudentEnrolmentManager {
                         break;
                     }
                     String sub;
-
                     do {
                         System.out.println("""
-                                     
-                                UPDATE AN ENROLMENT                          
+                                
+                                UPDATE AN ENROLMENT                        
                                 1. Add a course
                                 2. Delete a course
-                                0. Quit""");
+                                0. Back""");
                         System.out.print("Choose an option: ");
                         sub = sc.nextLine();
                         switch (sub) {
@@ -139,9 +144,36 @@ public class Main implements StudentEnrolmentManager {
                                 }
                                 break;
                             case "2":
+                                Student student3 = studentFind(s2);
+                                if (student3 != null) {
+                                    System.out.print("Enter the course ID: ");
+                                    String c3 = sc.nextLine();
+                                    Course course3 = courseFind(c3);
+                                    if (course3 != null) {
+                                        ArrayList<Integer> abc_course = new ArrayList<>();
+                                        for (int i = 0; i < abc_semester.size(); i++) {
+                                            if (Objects.equals(StudentEnrolmentManager.getAll().get(abc_semester.get(i)).getCourseID(), c3)) {
+                                                abc_course.add(i);
+                                            }
+                                        }
+                                        if (abc_course.size() != 0) {
+                                            for (int i = 0; i < abc_course.size(); i++) {
+                                                StudentEnrolmentManager.delete(abc_course.get(i));
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("No courses found!");
+                                    }
+                                }
+                            case "0":
+                                break;
+
+                            default:
+                                System.out.println("That is not a valid option, please try again.");
                         } 
                         break;
                     } while (!sub.equals("0"));
+                    break;
                 case "0":
                     System.out.println("Thank you for using our system!");
                     break;
@@ -150,10 +182,5 @@ public class Main implements StudentEnrolmentManager {
                     System.out.println("That is not a valid option, please try again.");
             }
         } while(!main.equals("0"));
-    }
-
-    @Override
-    public void getOne() {
-
     }
 }
