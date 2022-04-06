@@ -1,8 +1,5 @@
+import java.io.*;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Main implements StudentEnrolmentManager {
     static Set<Student> student_list = new HashSet<>();
@@ -53,18 +50,18 @@ public class Main implements StudentEnrolmentManager {
         }
     }
 
-    public static void main(String[] args) {
-        String csv_input;
+    public static void main(String[] args) throws IOException {
+        String input;
         String csv_file;
         System.out.print("Choose a CSV file to read data from: ");
-        csv_input = sc.nextLine();
-        if (Objects.equals(csv_input, "")) {
+        input = sc.nextLine();
+        if (Objects.equals(input, "")) {
             csv_file = "default.csv";
             System.out.println("*** No file was chosen, so default.csv is being read instead. ***");
-        } else if (csv_input.contains(".csv")) {
-            csv_file = csv_input;
+        } else if (input.contains(".csv")) {
+            csv_file = input;
         } else {
-            csv_file = csv_input + ".csv";
+            csv_file = input + ".csv";
         }
         read(csv_file);
         System.out.println("*** File " + csv_file + " is being read. ***");
@@ -227,9 +224,29 @@ public class Main implements StudentEnrolmentManager {
                                         }
                                     }
                                     if (semester_pointer.size() != 0) {
+                                        Set<String> display = new HashSet<>();
+                                        ArrayList<Course> course_display = new ArrayList<>();
                                         for (int i = 0; i < semester_pointer.size(); i++) {
-                                            System.out.println(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)));
+                                            display.add(enrolment_list.get(semester_pointer.get(i)).getCourseID());
                                         }
+                                        for (String i : display) {
+                                            course_display.add(courseFind(i));
+                                        }
+                                        System.out.println("*** ALL COURSES OF " + s + " IN SEMESTER " + sem + " ***");
+                                        for (int i = 0 ; i < course_display.size(); i++) {
+                                            System.out.println(course_display.get(i));
+                                            System.out.println("**************************************************");
+                                        }
+                                        File file_name = new File(Objects.requireNonNull(studentFind(s)).getStudentID()
+                                                + "_" + sem + ".csv");
+                                        FileWriter report = new FileWriter(file_name);
+                                        for (Course c : course_display) {
+                                            report.append(c.getCourseID()).append(",").append(c.getCourseName()).append(",").append(String.valueOf(c.getCourseCredit()));
+                                            report.append('\n');
+                                        }
+                                        report.flush();
+                                        report.close();
+                                        System.out.println("*** " + file_name + " was saved. ***");
                                     } else {
                                         System.out.println("*** That student is not enrolled in semester " + sem + ". ***");
                                     }
@@ -241,9 +258,9 @@ public class Main implements StudentEnrolmentManager {
                                 ArrayList<Integer> semester_pointer = new ArrayList<>();
                                 ArrayList<Integer> course_pointer = new ArrayList<>();
                                 System.out.print("Enter the course ID: ");
-                                String s = sc.nextLine();
+                                String c = sc.nextLine();
                                 for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
-                                    if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getCourseID(), s)) {
+                                    if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getCourseID(), c)) {
                                         course_pointer.add(i);
                                     }
                                 }
@@ -256,9 +273,29 @@ public class Main implements StudentEnrolmentManager {
                                         }
                                     }
                                     if (semester_pointer.size() != 0) {
+                                        Set<String> display = new HashSet<>();
+                                        ArrayList<Student> student_display = new ArrayList<>();
                                         for (int i = 0; i < semester_pointer.size(); i++) {
-                                            System.out.println(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)));
+                                            display.add(enrolment_list.get(semester_pointer.get(i)).getStudentID());
                                         }
+                                        for (String i : display) {
+                                            student_display.add(studentFind(i));
+                                        }
+                                        System.out.println("*** ALL STUDENTS OF " + c + " IN SEMESTER " + sem + " ***");
+                                        for (int i = 0 ; i < student_display.size(); i++) {
+                                            System.out.println(student_display.get(i));
+                                            System.out.println("**************************************************");
+                                        }
+                                        File file_name = new File(Objects.requireNonNull(courseFind(c)).getCourseID()
+                                                + "_" + sem + ".csv");
+                                        FileWriter report = new FileWriter(file_name);
+                                        for (Student s : student_display) {
+                                            report.append(s.getStudentID()).append(",").append(s.getStudentName()).append(",").append(s.getStudentBirthdate());
+                                            report.append('\n');
+                                        }
+                                        report.flush();
+                                        report.close();
+                                        System.out.println("*** " + file_name + " was saved. ***");
                                     } else {
                                         System.out.println("*** That course is not offered in semester " + sem + ". ***");
                                     }
@@ -278,18 +315,26 @@ public class Main implements StudentEnrolmentManager {
                                 if (semester_pointer.size() != 0) {
                                     Set<String> display = new HashSet<>();
                                     ArrayList<Course> course_display = new ArrayList<>();
-
-                                    for(int i = 0; i < semester_pointer.size(); i++) {
+                                    for (int i = 0; i < semester_pointer.size(); i++) {
                                         display.add(enrolment_list.get(semester_pointer.get(i)).getCourseID());
                                     }
-                                    for(String i : display) {
+                                    for (String i : display) {
                                         course_display.add(courseFind(i));
                                     }
                                     System.out.println("*** COURSES OFFERED IN SEMESTER " + sem + " ***");
-                                    for(int i = 0 ; i < course_display.size(); i++) {
+                                    for (int i = 0 ; i < course_display.size(); i++) {
                                         System.out.println(course_display.get(i));
                                         System.out.println("*****************************************");
                                     }
+                                    File file_name = new File(sem + "_ALL_COURSES.csv");
+                                    FileWriter report = new FileWriter(file_name);
+                                    for (Course c : course_display) {
+                                        report.append(c.getCourseID()).append(",").append(c.getCourseName()).append(",").append(String.valueOf(c.getCourseCredit()));
+                                        report.append('\n');
+                                    }
+                                    report.flush();
+                                    report.close();
+                                    System.out.println("*** " + file_name + " was saved. ***");
                                 } else {
                                     System.out.println("*** Semester " + sem + " does not exist. ***");
                                 }
