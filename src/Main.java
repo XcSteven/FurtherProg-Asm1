@@ -1,14 +1,12 @@
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Main implements StudentEnrolmentManager {
-    static ArrayList<Student> student_list = new ArrayList<>();
-    static ArrayList<Course> course_list = new ArrayList<>();
+    static Set<Student> student_list = new HashSet<>();
+    static Set<Course> course_list = new HashSet<>();
     static Scanner sc = new Scanner(System.in);
     
     public static void read(String csv_file) {
@@ -32,18 +30,18 @@ public class Main implements StudentEnrolmentManager {
     }
 
     public static Student studentFind(String id) {
-        for (int i = 0; i < student_list.size(); i++) {
-            if (Objects.equals(student_list.get(i).getStudentID(), id)) {
-                return student_list.get(i);
+        for (Student student : student_list) {
+            if (Objects.equals(student.getStudentID(), id)) {
+                return student;
             }
         }
         return null;
     }
 
     public static Course courseFind(String id) {
-        for (int i = 0; i < course_list.size(); i++) {
-            if (Objects.equals(course_list.get(i).getCourseID(), id)) {
-                return course_list.get(i);
+        for (Course course : course_list) {
+            if (Objects.equals(course.getCourseID(), id)) {
+                return course;
             }
         }
         return null;
@@ -95,16 +93,16 @@ public class Main implements StudentEnrolmentManager {
                 }
                 case "2" -> {
                     System.out.print("Enter the student ID: ");
-                    String s1 = sc.nextLine();
-                    Student student1 = studentFind(s1);
-                    if (student1 != null) {
+                    String s = sc.nextLine();
+                    Student student = studentFind(s);
+                    if (student != null) {
                         System.out.print("Enter the course ID: ");
-                        String c1 = sc.nextLine();
-                        Course course1 = courseFind(c1);
-                        if (course1 != null) {
+                        String c = sc.nextLine();
+                        Course course = courseFind(c);
+                        if (course != null) {
                             System.out.print("Enter the semester to be enrolled in: ");
-                            String sem1 = sc.nextLine();
-                            StudentEnrolmentManager.add(student1, course1, sem1);
+                            String sem = sc.nextLine();
+                            StudentEnrolmentManager.add(student, course, sem);
                         } else {
                             System.out.println("*** No courses found! ***");
                         }
@@ -113,30 +111,31 @@ public class Main implements StudentEnrolmentManager {
                     }
                 }
                 case "3" -> {
-                    String sem2;
+                    String sem;
                     ArrayList<Integer> semester_pointer = new ArrayList<>();
-                    System.out.print("Enter the student ID: ");
-                    String s2 = sc.nextLine();
                     ArrayList<Integer> student_pointer = new ArrayList<>();
+                    System.out.print("Enter the student ID: ");
+                    String s = sc.nextLine();
                     for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
-                        if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getStudentID(), s2)) {
+                        if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getStudentID(), s)) {
                             student_pointer.add(i);
                         }
                     }
                     if (student_pointer.size() != 0) {
                         System.out.print("Enter the semester: ");
-                        sem2 = sc.nextLine();
+                        sem = sc.nextLine();
                         for (int i = 0; i < student_pointer.size(); i++) {
-                            if (Objects.equals(StudentEnrolmentManager.getAll().get(student_pointer.get(i)).getSemester(), sem2)) {
+                            if (Objects.equals(StudentEnrolmentManager.getAll().get(student_pointer.get(i)).getSemester(), sem)) {
                                 semester_pointer.add(student_pointer.get(i));
                             }
                         }
                         if (semester_pointer.size() != 0) {
+                            System.out.println("*** ENROLMENTS OF " + s + " IN SEMESTER " + sem + " ***");
                             for (int i = 0; i < semester_pointer.size(); i++) {
                                 System.out.println(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)));
                             }
                         } else {
-                            System.out.println("*** That student is not enrolled in semester " + sem2 + ". ***");
+                            System.out.println("*** That student is not enrolled in semester " + sem + ". ***");
                             break;
                         }
                     } else {
@@ -155,29 +154,29 @@ public class Main implements StudentEnrolmentManager {
                     sub1 = sc.nextLine();
                     switch (sub1) {
                         case "1" -> {
-                            Student student2 = studentFind(s2);
-                            if (student2 != null) {
+                            Student student = studentFind(s);
+                            if (student != null) {
                                 System.out.print("Enter the course ID: ");
-                                String c2 = sc.nextLine();
-                                Course course2 = courseFind(c2);
-                                if (course2 != null) {
+                                String c = sc.nextLine();
+                                Course course = courseFind(c);
+                                if (course != null) {
                                     System.out.println("1");
-                                    StudentEnrolmentManager.add(student2, course2, sem2);
+                                    StudentEnrolmentManager.add(student, course, sem);
                                 } else {
                                     System.out.println("*** No courses found! ***");
                                 }
                             }
                         }
                         case "2" -> {
-                            Student student3 = studentFind(s2);
-                            if (student3 != null) {
+                            Student student = studentFind(s);
+                            if (student != null) {
                                 System.out.print("Enter the course ID: ");
-                                String c3 = sc.nextLine();
-                                Course course3 = courseFind(c3);
-                                if (course3 != null) {
+                                String c = sc.nextLine();
+                                Course course = courseFind(c);
+                                if (course != null) {
                                     ArrayList<Integer> course_pointer = new ArrayList<>();
                                     for (int i = 0; i < semester_pointer.size(); i++) {
-                                        if (Objects.equals(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)).getCourseID(), c3)) {
+                                        if (Objects.equals(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)).getCourseID(), c)) {
                                             course_pointer.add(semester_pointer.get(i));
                                         }
                                     }
@@ -195,7 +194,6 @@ public class Main implements StudentEnrolmentManager {
                         default -> System.out.println("*** That is not a valid option, please try again. ***");
                     }
                 }
-
                 case "4" -> {
                     String sub2;
                     do {
@@ -210,9 +208,92 @@ public class Main implements StudentEnrolmentManager {
                         System.out.print("Choose an option: ");
                         sub2 = sc.nextLine();
                         switch (sub2) {
-                            case "1" -> System.out.println("1");
-                            case "2" -> System.out.println("2");
-                            case "3" -> System.out.println("3");
+                            case "1" -> {
+                                ArrayList<Integer> semester_pointer = new ArrayList<>();
+                                ArrayList<Integer> student_pointer = new ArrayList<>();
+                                System.out.print("Enter the student ID: ");
+                                String s = sc.nextLine();
+                                for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
+                                    if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getStudentID(), s)) {
+                                        student_pointer.add(i);
+                                    }
+                                }
+                                if (student_pointer.size() != 0) {
+                                    System.out.print("Enter the semester: ");
+                                    String sem = sc.nextLine();
+                                    for (int i = 0; i < student_pointer.size(); i++) {
+                                        if (Objects.equals(StudentEnrolmentManager.getAll().get(student_pointer.get(i)).getSemester(), sem)) {
+                                            semester_pointer.add(student_pointer.get(i));
+                                        }
+                                    }
+                                    if (semester_pointer.size() != 0) {
+                                        for (int i = 0; i < semester_pointer.size(); i++) {
+                                            System.out.println(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)));
+                                        }
+                                    } else {
+                                        System.out.println("*** That student is not enrolled in semester " + sem + ". ***");
+                                    }
+                                } else {
+                                    System.out.println("*** That student does not exist. ***");
+                                }
+                            }
+                            case "2" -> {
+                                ArrayList<Integer> semester_pointer = new ArrayList<>();
+                                ArrayList<Integer> course_pointer = new ArrayList<>();
+                                System.out.print("Enter the course ID: ");
+                                String s = sc.nextLine();
+                                for (int i = 0; i < StudentEnrolmentManager.getAll().size(); i++) {
+                                    if (Objects.equals(StudentEnrolmentManager.getAll().get(i).getCourseID(), s)) {
+                                        course_pointer.add(i);
+                                    }
+                                }
+                                if (course_pointer.size() != 0) {
+                                    System.out.print("Enter the semester: ");
+                                    String sem = sc.nextLine();
+                                    for (int i = 0; i < course_pointer.size(); i++) {
+                                        if (Objects.equals(StudentEnrolmentManager.getAll().get(course_pointer.get(i)).getSemester(), sem)) {
+                                            semester_pointer.add(course_pointer.get(i));
+                                        }
+                                    }
+                                    if (semester_pointer.size() != 0) {
+                                        for (int i = 0; i < semester_pointer.size(); i++) {
+                                            System.out.println(StudentEnrolmentManager.getAll().get(semester_pointer.get(i)));
+                                        }
+                                    } else {
+                                        System.out.println("*** That course is not offered in semester " + sem + ". ***");
+                                    }
+                                } else {
+                                    System.out.println("*** That course does not exist. ***");
+                                }
+                            }
+                            case "3" -> {
+                                System.out.print("Enter the semester: ");
+                                String sem = sc.nextLine();
+                                ArrayList<Integer> semester_pointer = new ArrayList<>();
+                                for (int i = 0; i < enrolment_list.size(); i++) {
+                                    if (Objects.equals(enrolment_list.get(i).getSemester(), sem)) {
+                                        semester_pointer.add(i);
+                                    }
+                                }
+                                if (semester_pointer.size() != 0) {
+                                    Set<String> display = new HashSet<>();
+                                    ArrayList<Course> course_display = new ArrayList<>();
+
+                                    for(int i = 0; i < semester_pointer.size(); i++) {
+                                        display.add(enrolment_list.get(semester_pointer.get(i)).getCourseID());
+                                    }
+                                    for(String i : display) {
+                                        course_display.add(courseFind(i));
+                                    }
+                                    System.out.println("*** COURSES OFFERED IN SEMESTER " + sem + " ***");
+                                    for(int i = 0 ; i < course_display.size(); i++) {
+                                        System.out.println(course_display.get(i));
+                                        System.out.println("*****************************************");
+                                    }
+                                } else {
+                                    System.out.println("*** Semester " + sem + " does not exist. ***");
+                                }
+                            }
                             case "0" -> System.out.println("*** Returned to main menu! ***");
                             default -> System.out.println("*** That is not a valid option, please try again. ***");
                         }
